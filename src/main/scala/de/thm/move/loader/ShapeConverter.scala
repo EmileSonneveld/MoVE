@@ -81,7 +81,7 @@ class ShapeConverter(pxPerMm:Int, system:Point, srcFilePath:Path) {
     val (w,h) = (convP2 - convP1).abs
     (convP1, w,h)
   }
-
+/*
   def getShapes(ast:ModelicaAst):List[(ResizableShape, Option[ErrorMsg])] = ast match {
     case Model(_,icons) => getShapes(icons)
     case Icon(_,graphics, _,_) => graphics map getShape
@@ -183,10 +183,11 @@ class ShapeConverter(pxPerMm:Int, system:Point, srcFilePath:Path) {
       case (None, msg) => Some(
         s"""$shapename: \n  $msg""")
     }
+    */
 }
 
 object ShapeConverter {
-
+/*
   def getSystemSize(iconOpt:Annotation):Option[Point] =
     iconOpt match {
       case Icon(Some(system),_,_,_) =>
@@ -200,4 +201,5 @@ object ShapeConverter {
       getSystemSize(iconOpt).getOrElse(PropertyParser.defaultCoordinateSystemSize)
     case _ => throw new IllegalArgumentException("ast != Model")
   }
+  */
 }

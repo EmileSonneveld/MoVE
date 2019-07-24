@@ -15,12 +15,14 @@ import de.thm.move.loader.parser.ast._
 import scala.collection.JavaConversions._
 
 /** Represents a source-file with corresponding parsed AST. */
-case class SrcFile(file:Path, model:Model) {
+case class SrcFile(file:Path, model:Any) {
   private val lines = Files.readAllLines(file).toList
   private val lastModifiedTimestamp = Files.getLastModifiedTime(file)
 
   /** Gets the source before Icon(...) */
   def getBeforeModel: String = {
+    "getBeforeModel not implemented"
+    /*
     model.annot match {
       case Icon(_,_,start,_) =>
         val startLineIdx = start.line-1
@@ -39,10 +41,13 @@ case class SrcFile(file:Path, model:Model) {
         val beforeChars = lines(startLineIdx).take(pos.column-1)
         beforeLines.mkString("\n") + beforeChars
     }
+    */
   }
 
   /** Gets the source after Icon(..) */
   def getAfterModel: String = {
+    "getAfterModel not implemented"
+    /*
     model.annot match {
       case Icon(_,_,start,end) =>
         val endLineIdx = end.line-1
@@ -62,6 +67,7 @@ case class SrcFile(file:Path, model:Model) {
         //there is no annotation: generate closing the newly added annotation( .. )
         ");\n" + afterChars + "\n" + afterLines.mkString("\n")
     }
+    */
   }
 
   def isSame(p:Path): Boolean = {
@@ -69,6 +75,6 @@ case class SrcFile(file:Path, model:Model) {
     val xx = lastModifiedTimestamp
     Files.getLastModifiedTime(p) equals lastModifiedTimestamp
   }
-
   def noExternalChanges: Boolean = isSame(file)
+
 }

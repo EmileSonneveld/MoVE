@@ -17,7 +17,7 @@ import scala.util._
 
 /**A parser for modelica files. */
 trait ModelicaParserLike {
-
+/*
   /** Parses the file represented by path and returns the parsed ast */
   def parse(path:Path): Try[List[Model]] = {
     val stream = Files.newInputStream(path)
@@ -27,10 +27,11 @@ trait ModelicaParserLike {
   }
   /** Parses the given InputStream and returns the parsed ast */
   def parse(stream:InputStream): Try[List[Model]]
+  */
 }
 
 object ModelicaParserLike {
   class ParsingError(msg:String) extends IllegalArgumentException(msg)
 
-  def apply(): ModelicaParserLike = new ModelicaParser
+  //def apply(): ModelicaParserLike = new ModelicaParser
 }

@@ -20,7 +20,7 @@ import de.thm.move.util.GeometryUtils._
 import de.thm.move.views.shapes._
 
 import scala.collection.JavaConversions._
-import scala.xml.{Elem, Null, PrettyPrinter, UnprefixedAttribute}
+//import scala.xml.{Elem, Null, PrettyPrinter, UnprefixedAttribute}
 
 /** Codegenerator for SVG-Images
   *
@@ -48,7 +48,7 @@ class SvgCodeGenerator {
   private def shapesWithIds(shapes:List[Node]) = shapes.zipWithIndex.map {
     case (shape,idx) => (shape, idx.toString)
   }
-
+/*
   /** Generates an SVG Image from the given shapes with the given width & height */
   def generateShapes(shapes:List[Node], width:Double, height:Double): Elem = {
     <svg
@@ -84,17 +84,18 @@ class SvgCodeGenerator {
     case text:ResizableText => genText(text)
     case _ => throw new IllegalArgumentException(s"Can't generate svg code for: $shape")
   }
-
+*/
   /** Generates an SVG with pretty-printed XML.
     *
     * @see [[de.thm.move.models.SvgCodeGenerator#generateShapes]]
     */
   def generatePrettyPrinted(shapes:List[Node], width:Double,height:Double): String = {
-    val xml = generateShapes(shapes, width,height)
-    val printer = new PrettyPrinter(lineWidth,indentation)
-    printer.format(xml)
+    //val xml = generateShapes(shapes, width,height)
+    //val printer = new PrettyPrinter(lineWidth,indentation)
+    //printer.format(xml)
+    "not implemented"
   }
-
+/*
   private def genRectangle(rectangle:ResizableRectangle, id:String): Elem = {
     <rect
       x={rectangle.getX.toString}
@@ -253,7 +254,7 @@ class SvgCodeGenerator {
   private def transformationAttribute(node:Node) = {
     new UnprefixedAttribute("transform", generateRotation(node).getOrElse(""), Null)
   }
-
+*/
   private def generateRotation(node:Node): Option[String] = {
     val rotation = node.getRotate
     if(rotation == 0 | rotation == 360) None
@@ -264,7 +265,7 @@ class SvgCodeGenerator {
       Some(s"rotate($degree $x $y)")
     }
   }
-
+/*
   /** Creates a line that's used inside structures/patterns */
   private def structureLine(x1:Double,y1:Double,x2:Double,y2:Double,lineColor:Paint): Elem =
     <line
@@ -405,7 +406,7 @@ class SvgCodeGenerator {
       case _ => None
     }
   }
-
+*/
   private def genColorStyle(shape:ColorizableShape): String = {
     List(
       "stroke: " + colorToCssColor(shape.getStrokeColor),

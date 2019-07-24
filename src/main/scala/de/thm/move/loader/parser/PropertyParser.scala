@@ -15,11 +15,12 @@ import de.thm.move.loader.parser.ModelicaParserLike.ParsingError
 import de.thm.move.types._
 import de.thm.move.util.{Validation, ValidationSuccess, ValidationWarning}
 
-import scala.util.parsing.combinator.RegexParsers
+//import scala.util.parsing.combinator.RegexParsers
 
 /** Defines parsers for all properties/fields that a modelica primitive can have. */
 trait PropertyParser {
-  self: RegexParsers =>
+
+  //self: RegexParsers =>
 
   type StringValidation[A] = Validation[A, String]
 
@@ -31,7 +32,7 @@ trait PropertyParser {
   def conditionWarning(propertyName:String = "") = s"Conditional-Value '$propertyName' has no effect."
 
   // regex from: http://stackoverflow.com/a/5954831
-  override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
+  val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
   protected val identRegex = """[a-zA-Z_][a-zA-Z0-9_\\.\(\)\[\]\{\}]*""".r
   protected val numberRegex = "-?[0-9]+".r
   protected val javaLikeStrRegex = "\"(.*)\"".r
@@ -55,6 +56,7 @@ trait PropertyParser {
     *                The parsers will be joined with the alternative composition ("|")
     * @return
     */
+  /*
   def properties(parsers:Parser[(String, String)]*):Parser[Map[String,String]] = {
     val oredParser = parsers.tail.foldLeft(parsers.head)(_|_)
 
@@ -103,7 +105,6 @@ trait PropertyParser {
     | "{" ~ repsep(numberRegex|identRegex, ",") ~ "}" ^^ { case lp~inner~rp => lp+inner.mkString(",")+rp }
     | "{" ~ repsep(value, ",") ~ "}" ^^ { case lp~inner~rp => lp+inner.mkString(",")+rp }
   )
-
   def dynamicSelectedValue[A](v:Parser[A]): Parser[A] =
     "DynamicSelect" ~> "(" ~> v <~ "," <~ v <~ ")"
 
@@ -153,6 +154,7 @@ trait PropertyParser {
   val classSpecialization:Parser[String] = (
     "class" | "model" | "record" | "type" | "block" | "function" | "connector" | "package"
   )
+*/
 
   def transformEscapeChars(str:String): String = {
     @annotation.tailrec

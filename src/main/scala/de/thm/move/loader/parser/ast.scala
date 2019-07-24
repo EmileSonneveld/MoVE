@@ -12,39 +12,40 @@ import javafx.scene.paint.Color
 import de.thm.move.types._
 
 
-import scala.util.parsing.input.{Position, Positional}
+//import scala.util.parsing.input.{Position, Positional}
 
 object ast {
   type Extent = (Point,Point)
 
-  case class PositionedString(s:String) extends Positional
-  case class IconElements(coordinationSystem:Option[CoordinateSystem],
-                          grapchics:List[ShapeElement],
-                          end:Position) extends Positional
+  //case class PositionedString(s:String) extends Positional
+  //case class IconElements(coordinationSystem:Option[CoordinateSystem],
+  //                        grapchics:List[ShapeElement],
+  //                        end:Position) extends Positional
 
-  sealed trait ModelicaAst extends Positional
-  case class Model(name:String, annot:Annotation) extends ModelicaAst
+  //sealed trait ModelicaAst extends Positional
+  //case class Model(name:String, annot:Annotation) extends ModelicaAst
 
-  sealed trait Annotation extends ModelicaAst
+  //sealed trait Annotation extends ModelicaAst
   /** There is no annotation, but it would be at pos! */
-  case class NoAnnotation(position:Position) extends Annotation
+  //case class NoAnnotation(position:Position) extends Annotation
   /** There is a annotation but without a icon, icon would be at position pos! */
-  case class WithoutIcon(position:Position) extends Annotation
-  case class Icon(coordinationSystem:Option[CoordinateSystem],
-                  grapchics:List[ShapeElement],
-                  start:Position,
-                  end:Position) extends Annotation
-  case class CoordinateSystem(extension:Extent,
-                        preserveRatio:Boolean = true,
-                        initScale:Double = 0.1
-                        ) extends ModelicaAst
+  //case class WithoutIcon(position:Position) extends Annotation
+  //case class Icon(coordinationSystem:Option[CoordinateSystem],
+  //                grapchics:List[ShapeElement],
+  //                start:Position,
+  //                end:Position) extends Annotation
 
-  sealed trait ShapeElement extends ModelicaAst {
-    /** A list of possible warnings that occured during parsing the file.
-      * Will be used to warn the user when some Property can't get used
-      */
-    var warnings: List[String] = Nil
-  }
+  //case class CoordinateSystem(extension:Extent,
+  //                      preserveRatio:Boolean = true,
+  //                      initScale:Double = 0.1
+  //                      ) extends ModelicaAst
+
+  //sealed trait ShapeElement extends ModelicaAst {
+  //  /** A list of possible warnings that occured during parsing the file.
+  //    * Will be used to warn the user when some Property can't get used
+  //    */
+  //  var warnings: List[String] = Nil
+  //}
 
   case class GraphicItem(visible:Boolean = true,
                         origin:Point = (0,0),
@@ -56,15 +57,15 @@ object ast {
                          strokeSize: Double = 1.0,
                          strokePattern: String = "LinePattern.Solid")
 
-  case class RectangleElement(gItem:GraphicItem,
-                              filledShape:FilledShape,
-                              borderPattern:String = "BorderPattern.None",
-                              extent:Extent,
-                              radius:Double = 0.0
-                              ) extends ShapeElement
+  //case class RectangleElement(gItem:GraphicItem,
+  //                            filledShape:FilledShape,
+  //                            borderPattern:String = "BorderPattern.None",
+  //                            extent:Extent,
+  //                            radius:Double = 0.0
+  //                            ) extends ShapeElement
 
-  abstract class PathLikeElement(points:List[Point]) extends ShapeElement
-
+  //abstract class PathLikeElement(points:List[Point]) extends ShapeElement
+/*
   case class PathElement(gItem:GraphicItem,
                         points:List[Point],
                         color:Color = Color.BLACK,
@@ -107,4 +108,5 @@ object ast {
                   color: Color,
                   hAlignment: String
                   ) extends ShapeElement
+  */
 }

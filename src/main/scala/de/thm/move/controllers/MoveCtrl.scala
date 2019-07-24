@@ -43,14 +43,14 @@ import de.thm.move.views.anchors.Anchor
 import de.thm.move.views.dialogs.Dialogs
 import de.thm.move.views.panes.{DrawPanel, SnapGrid}
 import de.thm.move.views.shapes.{ResizableShape, ResizableText}
-import de.thm.recent.{MRecent, Recent}
-import de.thm.recent.JsProtocol._
+//import de.thm.recent.{MRecent, Recent}
+//import de.thm.recent.JsProtocol._
 
 import scala.None
 import scala.collection.JavaConversions._
 import scala.util._
-import org.reactfx.EventStreams
-import org.reactfx.EventStream
+//import org.reactfx.EventStreams
+//import org.reactfx.EventStream
 
 /** Main-Controller for all menus,buttons, etc. */
 class MoveCtrl extends Initializable {
@@ -132,12 +132,12 @@ class MoveCtrl extends Initializable {
 
   private val moveHandler = selectionCtrl.getMoveHandler
 
-  private val recentHandler = {
-    val recent =
-      if(Files.exists(recentFilesPath)) MRecent(Recent.fromInputStream[Path](Files.newInputStream(recentFilesPath)))
-      else MRecent(Recent.fromList(Seq[Path]()))
-    new RecentlyFilesHandler(recent, openFile)
-  }
+  //private val recentHandler = {
+  //  val recent =
+  //    if(Files.exists(recentFilesPath)) MRecent(Recent.fromInputStream[Path](Files.newInputStream(recentFilesPath)))
+  //    else MRecent(Recent.fromList(Seq[Path]()))
+  //  new RecentlyFilesHandler(recent, openFile)
+  //}
 
   private val shapeBtnsToSelectedShapes = Map(
       "rectangle_btn" -> SelectedShape.Rectangle,
@@ -209,7 +209,7 @@ class MoveCtrl extends Initializable {
       "show-grid" -> showGridItem,
       "enable-snapping" -> enableGridItem)
 
-    recentFilesMenu.getItems.addAll(recentHandler.getMenuItems:_*)
+    //recentFilesMenu.getItems.addAll(recentHandler.getMenuItems:_*)
 
     embeddedTextMenuController.setSelectedShapeCtrl(selectionCtrl)
     embeddedColorToolbarController.postInitialize(selectionCtrl)
@@ -274,34 +274,34 @@ class MoveCtrl extends Initializable {
       case (combination, btn) => combination -> fnRunnable(btn.fire)
     }
 
-    val pressedStream = EventStreams.eventsOf(drawStub.getScene, KeyEvent.KEY_PRESSED)
-    val releasedStream = EventStreams.eventsOf(drawStub.getScene, KeyEvent.KEY_RELEASED)
+    //val pressedStream = EventStreams.eventsOf(drawStub.getScene, KeyEvent.KEY_PRESSED)
+    //val releasedStream = EventStreams.eventsOf(drawStub.getScene, KeyEvent.KEY_RELEASED)
 
-      //shortcuts that aren't mapped to buttons
-    shortcuts.getKeyCode("draw-constraint").foreach { code =>
-      pressedStream.
-        filter(byKeyCode(code)).
-        subscribe { drawCtrl.drawConstraintProperty.set(true) }
-      releasedStream.
-        filter(byKeyCode(code)).
-        subscribe { drawCtrl.drawConstraintProperty.set(false) }
-    }
+    //  //shortcuts that aren't mapped to buttons
+    //shortcuts.getKeyCode("draw-constraint").foreach { code =>
+    //  pressedStream.
+    //    filter(byKeyCode(code)).
+    //    subscribe { drawCtrl.drawConstraintProperty.set(true) }
+    //  releasedStream.
+    //    filter(byKeyCode(code)).
+    //    subscribe { drawCtrl.drawConstraintProperty.set(false) }
+    //}
 
-    shortcuts.getKeyCode("select-constraint").foreach { code =>
-      pressedStream.
-        filter(byKeyCode(code)).
-        subscribe { selectionCtrl.addSelectedShapeProperty.set(true) }
-      releasedStream.
-        filter(byKeyCode(code)).
-        subscribe { selectionCtrl.addSelectedShapeProperty.set(false) }
-    }
+    //shortcuts.getKeyCode("select-constraint").foreach { code =>
+    //  pressedStream.
+    //    filter(byKeyCode(code)).
+    //    subscribe { selectionCtrl.addSelectedShapeProperty.set(true) }
+    //  releasedStream.
+    //    filter(byKeyCode(code)).
+    //    subscribe { selectionCtrl.addSelectedShapeProperty.set(false) }
+    //}
 
     setupMoveShapesByShortcuts(drawStub.getScene)
     drawStub.getScene.getAccelerators.putAll(combinationsToRunnable)
 
     drawStub.requestFocus()
 
-    fileParameter.map(Paths.get(_)).foreach(openFile)
+    //fileParameter.map(Paths.get(_)).foreach(openFile)
   }
 
   private def setupMoveShapesByShortcuts(scene:Scene) = {
@@ -309,6 +309,7 @@ class MoveCtrl extends Initializable {
       getPoint("shortcut-moving-delta-x", "shortcut-moving-delta-y").
       getOrElse((5.0,5.0))
 
+    /*
     val releasedStream = EventStreams.eventsOf(scene, KeyEvent.KEY_RELEASED)
     shortcuts.getKeyCode("move-left") foreach { code =>
       releasedStream.
@@ -342,11 +343,12 @@ class MoveCtrl extends Initializable {
           selectionCtrl.move(directioned)
         }
     }
+    */
   }
 
   def shutdownMove(): Unit = {
     embeddedColorToolbarController.shutdown()
-    recentHandler.writeTo(recentFilesPath)
+    //recentHandler.writeTo(recentFilesPath)
   }
 
   def shapeInputHandler(ev:InputEvent): Unit = {
@@ -383,7 +385,7 @@ class MoveCtrl extends Initializable {
       case _ => //do nothing; abort
     }
   }
-
+/*
   @FXML
   def onOpenClicked(e:ActionEvent): Unit = {
     setupOpenedFile(fileCtrl.openFile)
@@ -395,12 +397,12 @@ class MoveCtrl extends Initializable {
     }
     setupOpenedFile(fileInfos)
   }
-
+*/
   private def setupOpenedFile(fileInfos: Try[(Path, Point,List[ResizableShape])]): Unit = {
     fileInfos match {
       case Success((file, system, shapes)) =>
         displayUsedFile(file)
-        recentHandler.incrementPriorityOf(file)
+        //recentHandler.incrementPriorityOf(file)
         drawPanel.setSize(system)
         if (drawPanelCtrl.getElements.nonEmpty) {
           drawPanelCtrl.removeAll()
@@ -436,7 +438,7 @@ class MoveCtrl extends Initializable {
       case _ => //ignore successfull case
     }
   }
-
+/*
   @FXML
   def onSaveClicked(e:ActionEvent): Unit = {
     fileErrorHandling(
@@ -452,7 +454,7 @@ class MoveCtrl extends Initializable {
         map(displayUsedFile)
     )
   }
-
+*/
   @FXML
   def onExportSvgClicked(e:ActionEvent): Unit = {
     fileErrorHandling(

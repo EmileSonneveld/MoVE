@@ -72,10 +72,10 @@ class MoveApp extends Application {
 
 object MoveApp {
   import javafx.application.Platform
-  val name = build.ProjectInfo.name
-  val copyright = build.ProjectInfo.copyright
-  val version = build.ProjectInfo.version
-  val licenseName = build.ProjectInfo.licenseName
+  val name = "<name>" //build.ProjectInfo.name
+  val copyright = "<copyright>" //build.ProjectInfo.copyright
+  val version = "<version>" //build.ProjectInfo.version
+  val licenseName = "<licenseName>" //build.ProjectInfo.licenseName
 
   def printVersion(): Unit = {
     val versionInfo = s"""$name - V$version - $copyright - $licenseName"""

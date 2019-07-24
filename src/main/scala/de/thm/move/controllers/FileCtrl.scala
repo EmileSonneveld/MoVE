@@ -20,7 +20,7 @@ import de.thm.move.Global._
 import de.thm.move.implicits.MonadImplicits._
 import de.thm.move.loader.ShapeConverter
 import de.thm.move.loader.parser.ModelicaParserLike
-import de.thm.move.loader.parser.ast.Model
+//import de.thm.move.loader.parser.ast.Model
 
 import de.thm.move.models.ModelicaCodeGenerator.FormatSrc._
 import de.thm.move.models.{ModelicaCodeGenerator, SrcFile, SvgCodeGenerator, UserInputException}
@@ -63,7 +63,7 @@ class FileCtrl(owner: Window) {
       case _ => Failure(UserInputException("Specify a valid scale-factor between 1 and 100!"))
     }
   }
-
+/*
   private def chooseModelDialog(xs:List[Model]): Model = {
     if(xs.size > 1) {
       val names = xs.map(_.name)
@@ -75,7 +75,6 @@ class FileCtrl(owner: Window) {
       }
     } else xs.head
   }
-
 
   private def parseFile(path:Path): Try[SrcFile] = {
     val parser = ModelicaParserLike()
@@ -89,54 +88,54 @@ class FileCtrl(owner: Window) {
 
   private def parseFileExc(path:Path): SrcFile =
     parseFile(path).get
+*/
+  /*
 
-  /** Let the user choose a modelica file; parses this file and returns the
-    * path to the file, coordinate-system bounds & the shapes of the modelica model.
-    */
-  def openFile:Try[(Path, Point,List[ResizableShape])] = {
-    val chooser = Dialogs.newModelicaFileChooser()
-    chooser.setTitle("Open..")
+    /** Let the user choose a modelica file; parses this file and returns the
+      * path to the file, coordinate-system bounds & the shapes of the modelica model.
+      */
+    def openFile:Try[(Path, Point,List[ResizableShape])] = {
+      val chooser = Dialogs.newModelicaFileChooser()
+      chooser.setTitle("Open..")
 
-    val fileTry = Option(chooser.showOpenDialog(owner)) match {
-      case Some(x) => Success(x)
-      case _ => Failure(UserInputException("Select a modelica file to open!"))
-    }
-    for {
-      file <- fileTry
-      path = Paths.get(file.toURI)
-      (point, shapes) <- openFile(path)
-    } yield (path, point, shapes)
-  }
-
-  def openFile(path:Path):Try[(Point,List[ResizableShape])] = {
-    val existsTry =
-      if (Files.exists(path)) Success(path)
-      else Failure(UserInputException(s"$path doesn't exist!"))
-    for {
-      _ <- existsTry
-      srcFile <- parseFile(path)
-      scaleFactor <- showScaleDialog()
-    } yield {
-      val model = srcFile.model
-      val systemSize = ShapeConverter.gettCoordinateSystemSizes(model)
-      val converter = new ShapeConverter(scaleFactor,
-        systemSize,
-        path)
-      val shapesWithWarnings = converter.getShapes(model)
-      val shapes = shapesWithWarnings.map(_._1)
-      val warnings = shapesWithWarnings.flatMap(_._2)
-      val scaledSystem = systemSize.map(_*scaleFactor)
-      if(warnings.nonEmpty) {
-        Dialogs.newListDialog(warnings,
-          "Some properties aren't used.\nThey will be overriden when saving the file!").
-          showAndWait()
+      val fileTry = Option(chooser.showOpenDialog(owner)) match {
+        case Some(x) => Success(x)
+        case _ => Failure(UserInputException("Select a modelica file to open!"))
       }
-      openedFile = Some(srcFile)
-      formatInfos = Some(FormatInfos(scaleFactor, None))
-      (scaledSystem, shapes)
+      for {
+        file <- fileTry
+        path = Paths.get(file.toURI)
+        (point, shapes) <- openFile(path)
+      } yield (path, point, shapes)
     }
-  }
-
+    def openFile(path:Path):Try[(Point,List[ResizableShape])] = {
+      val existsTry =
+        if (Files.exists(path)) Success(path)
+        else Failure(UserInputException(s"$path doesn't exist!"))
+      for {
+        _ <- existsTry
+        srcFile <- parseFile(path)
+        scaleFactor <- showScaleDialog()
+      } yield {
+        val model = srcFile.model
+        val systemSize = ShapeConverter.gettCoordinateSystemSizes(model)
+        val converter = new ShapeConverter(scaleFactor,
+          systemSize,
+          path)
+        val shapesWithWarnings = converter.getShapes(model)
+        val shapes = shapesWithWarnings.map(_._1)
+        val warnings = shapesWithWarnings.flatMap(_._2)
+        val scaledSystem = systemSize.map(_*scaleFactor)
+        if(warnings.nonEmpty) {
+          Dialogs.newListDialog(warnings,
+            "Some properties aren't used.\nThey will be overriden when saving the file!").
+            showAndWait()
+        }
+        openedFile = Some(srcFile)
+        formatInfos = Some(FormatInfos(scaleFactor, None))
+        (scaledSystem, shapes)
+      }
+    }
   /** Warns the user that the given SrcFile got changed from another program and let the
     *  user decide if he wants to reparse the file or cancel the operation.
     *  - If the user wants to reparse the file, the file is reparsed and the returned SrcFile
@@ -222,6 +221,7 @@ class FileCtrl(owner: Window) {
       filepath
     }
   }
+  */
 
   private def generateCodeAndWriteToFile(shapes:List[Node],
                                          width:Double,
@@ -233,7 +233,7 @@ class FileCtrl(owner: Window) {
     srcEither match {
       case Left(src) =>
         val targetUri = src.file.toUri
-        val lines = generator.generateExistingFile(src.model.name, targetUri, shapes)
+        val lines = generator.generateExistingFile("src.model.name", targetUri, shapes)
         val before = src.getBeforeModel
         val after = src.getAfterModel
         generator.writeToFile(before,lines, after)(targetUri)

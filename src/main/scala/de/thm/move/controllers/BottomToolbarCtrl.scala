@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane
 
 import de.thm.move.implicits.LambdaImplicits._
 import de.thm.move.implicits.FxHandlerImplicits
-import org.reactfx.EventStreams
+//import org.reactfx.EventStreams
 
 class BottomToolbarCtrl extends Initializable {
 
@@ -26,11 +26,13 @@ class BottomToolbarCtrl extends Initializable {
   val paperHeightProperty:DoubleProperty = new SimpleDoubleProperty(0)
 
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
+    /*
     val widths = EventStreams.valuesOf(paperWidthProperty)
     val heights  = EventStreams.valuesOf(paperHeightProperty)
     EventStreams.combine(widths, heights).map[String](FxHandlerImplicits.function { tuple:org.reactfx.util.Tuple2[Number,Number] =>
       s"${tuple._1.intValue()} x ${tuple._2.intValue()}"
     }).subscribe { x:String => paperSizeLbl.setText(x) }
+    */
   }
 
   def postInitialize(paneToScale:Pane): Unit = {

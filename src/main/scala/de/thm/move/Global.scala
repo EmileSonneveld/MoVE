@@ -58,8 +58,8 @@ object Global {
   lazy val historySize = Global.config.getInt("history.cache-size").getOrElse(50)
   lazy val history = new History(historySize)
 
-  lazy val copyright = build.ProjectInfo.copyright
-  lazy val version = build.ProjectInfo.version
+  lazy val copyright = "<copyright >" //build.ProjectInfo.copyright
+  lazy val version = "<version >" //build.ProjectInfo.version
 
   lazy val licenseFile = "/LICENSE"
 

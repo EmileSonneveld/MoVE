@@ -17,8 +17,8 @@ import de.thm.move.util.ValidationSuccess
 
 import scala.language.postfixOps
 import scala.util._
-import scala.util.parsing.combinator.{ImplicitConversions, JavaTokenParsers}
-
+//import scala.util.parsing.combinator.{ImplicitConversions, JavaTokenParsers}
+/*
 class ModelicaParser extends JavaTokenParsers
   with ImplicitConversions
   with ModelicaParserLike
@@ -238,3 +238,4 @@ class ModelicaParser extends JavaTokenParsers
 
   private def missingKeyError(str:String) = throw new ParsingError(s"$str has to be defined!")
 }
+*/
